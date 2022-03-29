@@ -31,24 +31,70 @@ const ShoeCard = ({
       ? 'new-release'
       : 'default'
 
+  const getNameForVariant = (variant) => {
+    switch(variant) {
+      case 'on-sale':
+        return 'Sale';
+      case 'new-release':
+        return 'Just Released!';
+      default: 
+        return;
+    }
+  }
+
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
+        <Flag variant={variant}>{getNameForVariant(variant)}</Flag>
         <ImageWrapper>
           <Image alt="" src={imageSrc} />
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <Price variant={variant}>{formatPrice(price)}</Price>
         </Row>
         <Row>
           <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
+          <SalePrice hide={salePrice <= 0}>{formatPrice(salePrice)}</SalePrice>
         </Row>
       </Wrapper>
     </Link>
   );
 };
+
+const Flag = styled.span`
+  {
+    position:relative;
+    z-index: 1;
+    top: 42px;
+    color: ${COLORS.white};
+    font-size: 14px;
+    padding: 7px;
+    border-radius: 2px;
+
+    ${(props) => {
+        switch(props.variant) {
+          case 'on-sale':
+            return `
+              {
+                background: ${COLORS.primary};
+                left: 312px; // brittle but it'll do
+              }
+            `;
+          case 'new-release':
+            return `
+              {
+                background: ${COLORS.secondary};
+                left: 245px;
+              }
+            `;
+          default:
+            return;
+        }
+      }
+  }
+`;
 
 const Link = styled.a`
   text-decoration: none;
@@ -65,6 +111,7 @@ const ImageWrapper = styled.div`
 const Image = styled.img`
   {
     width: 100%;
+    border-radius: 16px 16px 4px 4px;
   }
 `;
 
@@ -79,7 +126,21 @@ const Name = styled.h3`
   color: ${COLORS.gray[900]};
 `;
 
-const Price = styled.span``;
+const Price = styled.span`
+    {
+      /* default */
+      color: ${COLORS.gray[900]};
+
+      ${(props) => {
+        if (props.variant === 'on-sale') {
+          return `{ 
+            text-decoration: line-through; 
+            color: ${COLORS.gray[700]};
+          }`
+        }
+      }
+    }
+`;
 
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
@@ -88,6 +149,7 @@ const ColorInfo = styled.p`
 const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
   color: ${COLORS.primary};
+  ${ props => props.hide && 'display: none' }
 `;
 
 export default ShoeCard;
