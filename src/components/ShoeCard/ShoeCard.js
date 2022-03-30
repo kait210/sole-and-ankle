@@ -77,17 +77,13 @@ const Flag = styled.span`
         switch(props.variant) {
           case 'on-sale':
             return `
-              {
                 background: ${COLORS.primary};
                 left: 312px; // brittle but it'll do
-              }
             `;
           case 'new-release':
             return `
-              {
                 background: ${COLORS.secondary};
                 left: 245px;
-              }
             `;
           default:
             return;
@@ -104,9 +100,7 @@ const Link = styled.a`
 
 const Wrapper = styled.article``;
 
-const ImageWrapper = styled.div`
-  position: relative;
-`;
+const ImageWrapper = styled.div``;
 
 const Image = styled.img`
   {
@@ -133,10 +127,10 @@ const Price = styled.span`
 
       ${(props) => {
         if (props.variant === 'on-sale') {
-          return `{ 
+          return `
             text-decoration: line-through; 
             color: ${COLORS.gray[700]};
-          }`
+          `
         }
       }
     }
@@ -149,7 +143,7 @@ const ColorInfo = styled.p`
 const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
   color: ${COLORS.primary};
-  ${ props => props.hide && 'display: none' }
+  ${ props => props.hide && 'display: none' };
 `;
 
 export default ShoeCard;
