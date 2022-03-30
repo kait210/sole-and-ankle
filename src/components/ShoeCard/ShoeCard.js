@@ -44,9 +44,9 @@ const ShoeCard = ({
 
   return (
     <Link href={`/shoe/${slug}`}>
-      <Wrapper>
-        <Flag variant={variant}>{getNameForVariant(variant)}</Flag>
+      <Wrapper>      
         <ImageWrapper>
+          <Flag variant={variant}>{getNameForVariant(variant)}</Flag>
           <Image alt="" src={imageSrc} />
         </ImageWrapper>
         <Spacer size={12} />
@@ -63,27 +63,27 @@ const ShoeCard = ({
   );
 };
 
-const Flag = styled.span`
+const Flag = styled.div`
   {
-    position:relative;
+    position:absolute;
     z-index: 1;
-    top: 42px;
+    top: 24px;
+    right: -4px;
     color: ${COLORS.white};
     font-size: 14px;
     padding: 7px;
     border-radius: 2px;
+    font-weight: ${WEIGHTS.bold};
 
     ${(props) => {
         switch(props.variant) {
           case 'on-sale':
             return `
                 background: ${COLORS.primary};
-                left: 312px; // brittle but it'll do
             `;
           case 'new-release':
             return `
                 background: ${COLORS.secondary};
-                left: 245px;
             `;
           default:
             return;
@@ -100,7 +100,10 @@ const Link = styled.a`
 
 const Wrapper = styled.article``;
 
-const ImageWrapper = styled.div``;
+const ImageWrapper = styled.div`
+  position: relative;
+  padding: 8px;
+`;
 
 const Image = styled.img`
   {
